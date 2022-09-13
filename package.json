@@ -20,15 +20,16 @@
     "casper-erc20-js-client": "0.0.4",
     "cli-spinners": "^2.6.1",
     "commander": "^9.2.0",
+    "decimal.js": "^10.3.1",
     "fireblocks-sdk": "^1.14.0",
     "log-update": "^5.0.1",
     "node-rsa": "^1.1.1",
+    "opensea-js": "^4.0.6",
     "ora": "^6.1.0",
     "rxjs": "^7.4.0",
     "symbol-sdk": "^1.0.2",
     "web3": "^1.7.3"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
