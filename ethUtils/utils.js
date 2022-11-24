@@ -46,6 +46,15 @@ let web3
 
     // uniswapV2Pair
     console.log(`uniswapV2Pair:         ${encodeFuncSig('uniswapV2Pair()')}`)
+
+    // removeAllFee
+    console.log(`setFee(uint256,uint256,uint256,uint256):         ${encodeFuncSig('setFee(uint256,uint256,uint256,uint256)')}`)
+
+    // transferOwnership
+    console.log(`transferOwnership:         ${encodeFuncSig('transferOwnership()')}`)
+
+    // OwnershipTransferred(address,address)
+    console.log(`OwnershipTransferred:         ${encodeFuncSig('OwnershipTransferred(address,address)')}`)
 })()
 
 // encodeFunctionSignature

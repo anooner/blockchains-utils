@@ -3,10 +3,10 @@
  * 示例：
 nvm use v14.17.0 && node ethUtils/estimateGas.js \
 --chain eth \
---contract 0x8AF5FedC0f263841C18F31D9DbCC97A47e1aB462 \
---from 0x230d77c4dd61439c246b1a99434242ec42065ca3 \
---to 0x5c7beD3Cca42e4562877eD88B9Aa0F5898Ed59B0 \
---amount 20000000000
+--contract 0x4270A3D1a61FC6b86Ea9E19730E529ACEe592c3B \
+--from 0x0dCB55BeaF312D60d2de11E3b45446f5B602B6da \
+--to 0x86a8d97bFaB7d77BfE19501Ef93712b7DB1c7986 \
+--amount 1
  */
 
 import { program } from 'commander';
