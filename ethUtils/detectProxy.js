@@ -13,7 +13,7 @@ import {program} from 'commander';
 import ora from "ora";
 import {initWeb3} from "./initWeb3.js";
 
-const spinner = ora("检测通缩合约...")
+const spinner = ora("检测代理合约...")
 spinner.spinner = spinners.arrow3
 
 program
@@ -44,50 +44,17 @@ const w = [];
         const symbol = await web3Call(c, encodeSymbolCall())
         // spinner.info(`symbol:  ${web3.utils.hexToUtf8(symbol)}`)
     
-        const encodeIsExcludedFromFee = web3.eth.abi.encodeFunctionSignature("isExcludedFromFee(address)");
-        if (code.indexOf(encodeIsExcludedFromFee.substr(2)) > 0) {
-            let data = isExcludedFromFee('0x5c7beD3Cca42e4562877eD88B9Aa0F5898Ed59B0');
-            const result = await web3Call(c, data)
-            let isExcludeFee = web3.utils.hexToNumber(result);
-            if (isExcludeFee !== 1) {
-                spinner.info(`未添加白名单  ${c} ${web3.utils.hexToUtf8(symbol)}`)
-            }else {
-                spinner.info(`✅ 符合通缩合约 excludeFromFees, ${c} ${web3.utils.hexToUtf8(symbol)}`)
-            }
+        const data = await getStorageAt(c);
+        
+        const num = web3.utils.toBN(data)
+        if(num == 0) {
             continue
         }
-
-        // excludeFromFees(address,bool)  / totalFees / uniswapV2Pair
-        // if (code.indexOf('c0246668') > 0 ||
-        //     code.indexOf('9d8f7706') > 0 ||
-        //     code.indexOf('13114a9d') > 0 ||
-        //     code.indexOf('49bd5a5e') > 0) {
-        //     spinner.info(`✅ 符合通缩合约 excludeFromFees, ${c} ${web3.utils.hexToUtf8(symbol)}`)
-        // }
+        const address = '0x' + web3.utils.encodePacked(data).substring(26)
+        spinner.info(`${index} 代理合约  ${c}, ${web3.utils.hexToUtf8(symbol)}, ${address}`)
     }
+    spinner.succeed(`检查完成...`)
 })()
-
-function isExcludedFromFees(address) {
-    return web3.eth.abi.encodeFunctionCall({
-        name: 'isExcludedFromFees',
-        type: 'function',
-        inputs: [{
-            type: 'address',
-            name: 'to'
-        }]
-    }, [address]);
-}
-
-function isExcludedFromFee(address) {
-    return web3.eth.abi.encodeFunctionCall({
-        name: 'isExcludedFromFee',
-        type: 'function',
-        inputs: [{
-            type: 'address',
-            name: 'to'
-        }]
-    }, [address]);
-}
 
 function encodeSymbolCall() {
     return web3.eth.abi.encodeFunctionSignature('symbol()')
@@ -95,6 +62,13 @@ function encodeSymbolCall() {
 
 async function contractCode(to) {
     return await web3.eth.getCode(to);
+}
+
+async function getStorageAt(contract) {
+    return await web3.eth.getStorageAt(contract, "0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc", "latest").catch(err => {
+        spinner.fail(`获取data错误: ${err.toString()}`)
+        process.exit();
+    })
 }
 
 async function web3Call(contract, data) {
