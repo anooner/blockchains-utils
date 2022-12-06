@@ -2,11 +2,11 @@
 /**
  * 示例：
 nvm use v14.17.0 && node ethUtils/estimateGas.js \
---chain eth \
---contract 0x4270A3D1a61FC6b86Ea9E19730E529ACEe592c3B \
---from 0x0dCB55BeaF312D60d2de11E3b45446f5B602B6da \
---to 0x86a8d97bFaB7d77BfE19501Ef93712b7DB1c7986 \
---amount 1
+--chain bsc \
+--contract 0x55d398326f99059fF775485246999027B3197955 \
+--from 0x7563758243A262E96880F178aeE7817DcF47Ab0f \
+--to 0x29bD57D591Ad823f98d3cd73Da938a56aB4945E4 \
+--amount 312
  */
 
 import { program } from 'commander';
